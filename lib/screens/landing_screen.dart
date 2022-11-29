@@ -47,9 +47,8 @@ class _LandingScreenState extends State<LandingScreen> {
                     child: Container(
                       height: 200,
                       padding: const EdgeInsets.all(10),
-                      
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(20),
                         
                       ),
                       child:Column(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swapn/screens/get-started.dart';
 import './screens/homepage.dart';
 import './screens/create_account.dart';
 import './screens/landing_screen.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
         CreateAccount.routeName:(context) => CreateAccount(),
         LandingScreen.routeName:(context) => LandingScreen(),
+        GetStarted.routeName : (context) => GetStarted(),
       },
     );
   }
