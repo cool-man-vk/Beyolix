@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:swapn/screens/landing_screen.dart';
 import './create_account.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,6 +13,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+
+
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -42,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             margin: const EdgeInsets.all(10),
             child: TextFormField(
+              controller: emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(
@@ -55,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             margin: const EdgeInsets.all(10),
             child: TextFormField(
+              controller: passwordController,
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'Password',
@@ -71,7 +83,43 @@ class _LoginPageState extends State<LoginPage> {
             height: 40,
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                 if (emailController.text.isEmpty ||
+                        passwordController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter your email and password'),
+                        ),
+                      );
+                    } else if (emailController.text == null ||
+                        passwordController.text == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter your email and password'),
+                        ),
+                      );
+                    } else if (emailController.text.isNotEmpty &&
+                        passwordController.text.isNotEmpty) {
+                        try {
+                          UserCredential userCredential = await auth.signInWithEmailAndPassword(
+                              email: emailController.text, 
+                              password: passwordController.text
+                          );
+                          user = userCredential.user;
+
+                          // if (user != null) {
+                          //   Navigator.of(context)
+                          //       .pushReplacementNamed(LandingScreen.routeName);
+                          // }
+                        } on FirebaseException catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.message!),
+                            ),
+                          );
+                        }
+                    }
+              },
               child: const Text(
                 'Login',
                 style: TextStyle(color: Colors.white),
