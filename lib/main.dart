@@ -12,10 +12,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: const Color.fromARGB(255, 0, 134, 245) as MaterialColor,
+        fontFamily: 'Lato',
+        primarySwatch: Colors.lightBlue,
       ),
       home:HomePage(
-        
+
       ),
     );
   }
