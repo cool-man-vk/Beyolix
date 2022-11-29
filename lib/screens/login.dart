@@ -77,6 +77,23 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  const Text('Don\'t have an account?'),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                ],
+              )
             )
           ],
         ),
