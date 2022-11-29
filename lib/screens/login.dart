@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './create_account.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,80 +12,81 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.all(10),
-              width: 300,
-              height: 300,
-              child: Image.asset(
-                'images/health.png',
-                fit: BoxFit.cover,
+        body: SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          
+          Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
+            width: 300,
+            height: 300,
+            child: Image.asset(
+              'images/health.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
+            child: const Text(
+              'Let\'s get started',
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.all(10),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10),
+            child: TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10),
+            child: TextFormField(
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10),
+            height: 40,
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {},
               child: const Text(
-                'Let\'s get started',
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
+                'Login',
+                style: TextStyle(color: Colors.white),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: TextFormField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              height:40,
-              width:double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  'Login',
-                  style: TextStyle(
-                    color: Colors.white
-                  ),
-                ),
-              ),
-            ),
-            Container(
+          ),
+          Container(
               padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
                   const Text('Don\'t have an account?'),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(CreateAccount.routeName);
+                    },
                     child: const Text(
                       'Sign Up',
                       style: TextStyle(
@@ -93,11 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ],
-              )
-            )
-          ],
-        ),
-      )
-    );
+              ))
+        ],
+      ),
+    ));
   }
 }

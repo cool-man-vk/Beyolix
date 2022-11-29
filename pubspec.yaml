@@ -64,6 +64,7 @@ flutter:
   assets:
     - assets/images/preview.png
     - assets/images/health.png
+    - assets/images/medical.jpg
 
   fonts:
     - family: Lato
