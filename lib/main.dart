@@ -4,11 +4,12 @@ import 'package:swapn/screens/get-started.dart';
 import './screens/homepage.dart';
 import './screens/create_account.dart';
 import './screens/landing_screen.dart';
+import './firebase_options.dart';
 
 
 Future<void> main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+ WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

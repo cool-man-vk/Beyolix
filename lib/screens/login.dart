@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             width: 300,
             height: 300,
             child: Image.asset(
-              'images/health.png',
+              'assets/images/health.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -61,6 +61,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+              validator: ((value) {
+                if (value!.isEmpty) {
+                  return 'Please enter email';
+                }
+                return null;
+              }),
             ),
           ),
           Container(
@@ -76,6 +82,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+              validator: ((value) {
+                if (value!.isEmpty) {
+                  return 'Please enter password';
+                }
+                return null;
+              }),
             ),
           ),
           Container(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -10,10 +13,25 @@ class GetStarted extends StatefulWidget {
 }
 
 class _GetStartedState extends State<GetStarted> {
+  File? selectedImage;
+
+  void getImage() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    ) as PickedFile;
+
+    if (pickedFile != null) {
+      setState(() {
+        selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         leading: const BackButton(
           color: Colors.white,
@@ -41,20 +59,24 @@ class _GetStartedState extends State<GetStarted> {
                         color: Colors.grey,
                         width: 1,
                       ),
-                      image: const DecorationImage(
-                        image: AssetImage('images/defaultimage.png'),
+                      image: DecorationImage(
+                        image: 
+                          selectedImage == null
+                          ? const AssetImage('assets/images/defaultimage.png')
+                          : FileImage(selectedImage!) as ImageProvider
+                        
                       )),
                 ),
               ),
-               Container(
+              Container(
                 margin: const EdgeInsets.all(10),
                 height: 40,
-                width:120,
+                width: 120,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.green
-                  ),
-                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                  onPressed: () {
+                    getImage();
+                  },
                   child: const Text(
                     'Choose File',
                     style: TextStyle(color: Colors.white),
@@ -64,11 +86,10 @@ class _GetStartedState extends State<GetStarted> {
               Container(
                 margin: const EdgeInsets.all(10),
                 height: 40,
-                width:120,
+                width: 120,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: const Color.fromARGB(255, 11, 72, 121)
-                  ),
+                      primary: const Color.fromARGB(255, 11, 72, 121)),
                   onPressed: () {},
                   child: const Text(
                     'Submit',
@@ -76,8 +97,7 @@ class _GetStartedState extends State<GetStarted> {
                   ),
                 ),
               ),
-            ]
-        ),
+            ]),
       ),
     );
   }

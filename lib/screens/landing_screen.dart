@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import './get-started.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -9,9 +11,29 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
+
+  final uemail = FirebaseAuth.instance.currentUser!.email;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title:  Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            IconButton(
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+              },
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -22,9 +44,9 @@ class _LandingScreenState extends State<LandingScreen> {
                 padding: const EdgeInsets.all(10),
                 margin: const EdgeInsets.all(10),
                 height: MediaQuery.of(context).size.height * 0.1,
-                child: const Text(
-                  'Welcome user',
-                  style: TextStyle(
+                child: Text(
+                  'Welcome $uemail',
+                  style: const TextStyle(
                     fontSize: 15,
                     color: Colors.grey,
                     fontWeight: FontWeight.w100,
@@ -69,7 +91,9 @@ class _LandingScreenState extends State<LandingScreen> {
                             height: 40,
                             width: 200,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(GetStarted.routeName);
+                              },
                               child: const Text(
                                 'Get Started',
                                 style: TextStyle(color: Colors.white),
