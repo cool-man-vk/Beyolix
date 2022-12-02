@@ -34,6 +34,9 @@ dependencies:
   firebase_core: ^2.3.0
   image_picker: ^0.8.6
   firebase_auth: ^4.1.4
+  http: ^0.13.5
+  async: ^2.9.0
+  path: ^1.8.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -68,6 +71,7 @@ flutter:
     - assets/images/health.png
     - assets/images/medical.jpg
     - assets/images/defaultimage.png
+    - assets/images/loading.gif
   fonts:
     - family: Lato
       fonts:
