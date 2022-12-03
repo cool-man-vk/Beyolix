@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:path/path.dart';
+import 'dart:core';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -17,8 +18,9 @@ class GetStarted extends StatefulWidget {
 
 class _GetStartedState extends State<GetStarted> {
   File? selectedImage;
-  var prediction;
-  var symptoms;
+  var responseString;
+  var responseData;
+  var drugName;
 
   void getImage() async {
     PickedFile pickedFile = await ImagePicker().getImage(
@@ -50,19 +52,29 @@ class _GetStartedState extends State<GetStarted> {
     var multipartFile = http.MultipartFile('file', stream, length,
         filename: basename(imageFile.path));
 
-    // add file to multipart
     request.files.add(multipartFile);
 
-    // send
     var response = await request.send();
-    print(response.statusCode);
+
+    responseData = await response.stream.toBytes();
+    responseString = String.fromCharCodes(responseData);
+    print(responseString);
+
+    return responseString;
+
+    // var result = response.stream.transform(utf8.decoder).listen((value) {
+    //   prediction = json.decode(value);
+    //   // print(prediction);
+    //   // symptoms = prediction['symptoms'];
+    //   // print(symptoms);
+    //   // for (var i = 0; i < symptoms.length; i++) {
+    //   //   print(symptoms[i]['drug']);
+    //   // }
+    // });
+
+    // print(result);
 
     // listen for response
-    return response.stream.transform(utf8.decoder).listen((value) {
-      prediction = json.decode(value);
-      print(prediction);
-      symptoms = prediction['symptoms'];
-    });
   }
 
   @override
@@ -76,24 +88,26 @@ class _GetStartedState extends State<GetStarted> {
               content: FutureBuilder(
                   future: getResult(selectedImage!),
                   builder: (context, snapshot) {
-                    if(snapshot.hasData){
-                      return Column(
-                        children: [
-                          Text(snapshot.data)
-                          
-                        ],
+                    if (snapshot.hasData) {
+                      var data = json.decode(snapshot.data);
+                      return ListView.builder(
+                        itemCount: data['symptoms'].length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Text("Drug name - ${data['symptoms'][index]['drug']}"),
+                              Text("Symptom - ${data['symptoms'][index]['symptoms'][0]}"),
+                            ],
+                          );
+                        },
                       );
-                    }
-                    else if(snapshot.hasError){
-                      return Text('Error');
-                    }
-                    else{
-                      return const CircularProgressIndicator();
+                    } else {
+                      return const Text('Loading...!!!!');
                     }
                   }),
             );
           });
-      // 
+      //
     }
 
     return Scaffold(
@@ -161,22 +175,23 @@ class _GetStartedState extends State<GetStarted> {
                 ),
               ),
               Container(
-                child: prediction == null 
-                ? Column()
-                : Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                       Text(prediction['symptoms'][0]['drug']),
-                    ],
-                  ),
-                )
-              )
+                  child: responseString == null
+                      ? Column()
+                      : Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              responseString['symptoms'].map((e) {
+                                return Text(e['drug']);
+                              })
+                            ],
+                          ),
+                        ))
             ]),
       ),
     );
