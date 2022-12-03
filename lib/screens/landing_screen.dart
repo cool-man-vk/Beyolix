@@ -22,14 +22,30 @@ class _LandingScreenState extends State<LandingScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            IconButton(
-              icon: const Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-              },
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Sucessfully logged out...!'),
+                      ),
+                    );
+                  },
+                ),
+                const Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+
             ),
           ],
         ),

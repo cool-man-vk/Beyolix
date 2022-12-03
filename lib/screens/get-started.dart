@@ -37,18 +37,14 @@ class _GetStartedState extends State<GetStarted> {
   }
 
   Future getResult(File imageFile) async {
-    var stream =
-        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    // get file length
+    var stream = http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
 
-    // string to uri
     var uri = Uri.parse("http://207.154.218.143/uploadfile/");
 
     // create multipart request
     var request = http.MultipartRequest("POST", uri);
 
-    // multipart that takes file
     var multipartFile = http.MultipartFile('file', stream, length,
         filename: basename(imageFile.path));
 
@@ -61,55 +57,10 @@ class _GetStartedState extends State<GetStarted> {
     print(responseString);
 
     return responseString;
-
-    // var result = response.stream.transform(utf8.decoder).listen((value) {
-    //   prediction = json.decode(value);
-    //   // print(prediction);
-    //   // symptoms = prediction['symptoms'];
-    //   // print(symptoms);
-    //   // for (var i = 0; i < symptoms.length; i++) {
-    //   //   print(symptoms[i]['drug']);
-    //   // }
-    // });
-
-    // print(result);
-
-    // listen for response
   }
 
   @override
   Widget build(BuildContext context) {
-    void loadResult() async {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Drug Analysis'),
-              content: FutureBuilder(
-                  future: getResult(selectedImage!),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      var data = json.decode(snapshot.data);
-                      return ListView.builder(
-                        itemCount: data['symptoms'].length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              Text("Drug name - ${data['symptoms'][index]['drug']}"),
-                              Text("Symptom - ${data['symptoms'][index]['symptoms'][0]}"),
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      return const Text('Loading...!!!!');
-                    }
-                  }),
-            );
-          });
-      //
-    }
-
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(
@@ -160,38 +111,105 @@ class _GetStartedState extends State<GetStarted> {
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                height: 40,
-                width: 120,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: const Color.fromARGB(255, 11, 72, 121)),
-                  onPressed: loadResult,
-                  child: const Text(
-                    'Submit',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-              Container(
-                  child: responseString == null
-                      ? Column()
-                      : Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
+              selectedImage == null
+                  ? Container(
+                      child: const Center(
+                        child: Text(
+                          'Please select an image',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
                           ),
-                          child: Column(
-                            children: [
-                              responseString['symptoms'].map((e) {
-                                return Text(e['drug']);
-                              })
-                            ],
-                          ),
-                        ))
+                        ),
+                      ),
+                    )
+                  : Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                      ),
+                      margin: const EdgeInsets.all(20),
+                      child: FutureBuilder(
+                          future: getResult(selectedImage!),
+                          builder: (context, snapshot) {
+                            try {
+                              if (snapshot.hasData) {
+                                var data = json.decode(snapshot.data);
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: data['symptoms'].length,
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "Drug name -",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Text(
+                                              " ${data['symptoms'][index]['drug']}",
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: (data['symptoms'][index]
+                                                    ['symptoms'])
+                                                .length,
+                                            itemBuilder: (context, index) {
+                                              return Row(
+                                                children: [
+                                                  const Text(
+                                                    "Symptom -",
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  Text(
+                                                    "${data['symptoms'][index]['symptoms'][index]}",
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  )
+                                                ],
+                                              );
+                                            }),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else if (snapshot.hasError) {
+                                return const Center(
+                                    child: Text(
+                                        'Some Error has been occured while processing.!!'));
+                              } else {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            } catch (error) {
+                              return Column(
+                                children: [
+                                  Image.asset('assets/images/cartoon-sad.png'),
+                                  const SizedBox(height: 8),
+                                  const Text('An error occured'),
+                                ],
+                              );
+                            }
+                          }),
+                    )
             ]),
       ),
     );

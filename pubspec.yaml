@@ -72,6 +72,7 @@ flutter:
     - assets/images/medical.jpg
     - assets/images/defaultimage.png
     - assets/images/loading.gif
+    - assets/images/cartoon-sad.png
   fonts:
     - family: Lato
       fonts:
