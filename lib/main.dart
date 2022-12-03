@@ -18,15 +18,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Swapn',
       theme: ThemeData(
         fontFamily: 'Lato',
         primarySwatch: Colors.lightBlue,
       ),
       debugShowCheckedModeBanner: false,
-      home:HomePage(
-
-      ),
+      home: HomePage(),
       initialRoute: '/',
       routes: {
         CreateAccount.routeName:(context) => CreateAccount(),
