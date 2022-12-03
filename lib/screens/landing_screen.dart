@@ -11,14 +11,13 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-
   final uemail = FirebaseAuth.instance.currentUser!.email;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Column(
+        title: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -45,7 +44,6 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                 ),
               ],
-
             ),
           ],
         ),
@@ -71,59 +69,55 @@ class _LandingScreenState extends State<LandingScreen> {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.9,
-              margin: const EdgeInsets.only(
-                left:10,
-                right: 10,
-              ),
-              child:Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Card(
-                    elevation: 5,
-                    child: Container(
-                      height: 200,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        
-                      ),
-                      child:Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 18,
-                              
-                              color: Colors.black
-                            ),
+                height: MediaQuery.of(context).size.height * 0.9,
+                margin: const EdgeInsets.only(
+                  left: 10,
+                  right: 10,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Card(
+                      elevation: 5,
+                      child: Container(
+                          height: 200,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          Container(
-                            margin: const EdgeInsets.all(10),
-                            height: 40,
-                            width: 200,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed(GetStarted.routeName);
-                              },
-                              child: const Text(
-                                'Get Started',
-                                style: TextStyle(color: Colors.white),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Predict your prescription\'s adverse side effects.!',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
                               ),
-                            ),
-                          )
-                        ],
-                      )
-                    ),
-                  )
-                ],
-              )
-            )
-            
+                              Container(
+                                margin: const EdgeInsets.all(10),
+                                height: 40,
+                                width: 200,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamed(GetStarted.routeName);
+                                  },
+                                  child: const Text(
+                                    'Get Started',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )),
+                    )
+                  ],
+                ))
           ],
         ),
       ),
