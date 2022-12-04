@@ -30,13 +30,26 @@ class _LoginPageState extends State<LoginPage> {
           
           Container(
             padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.all(10),
-            width: 300,
-            height: 300,
-            child: Image.asset(
-              'assets/images/health.png',
-              fit: BoxFit.cover,
+            margin: const EdgeInsets.only(top:80),
+            width: 200,
+            height: 200,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+              // borderRadius: BorderRadius.all(Radius.circular(50)),
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/beyolix-app.png',
+                  
+                ),
+
+              ),
             ),
+
+            // child: Image.asset(
+            //   'assets/images/beyolix-app.png',
+            //   fit: BoxFit.cover,
+            // ),
           ),
           Container(
             padding: const EdgeInsets.all(10),

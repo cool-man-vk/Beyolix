@@ -33,6 +33,8 @@ class _GetStartedState extends State<GetStarted> {
       setState(() {
         selectedImage = File(pickedFile.path);
       });
+    } else if(pickedFile == null){
+      return;
     }
   }
 
@@ -164,7 +166,9 @@ class _GetStartedState extends State<GetStarted> {
                                         ),
                                         ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount: (data['symptoms'][index]['symptoms']).length,
+                                            itemCount: (data['symptoms'][index]
+                                                    ['symptoms'])
+                                                .length,
                                             itemBuilder: (context, index) {
                                               return Row(
                                                 children: [
@@ -184,7 +188,7 @@ class _GetStartedState extends State<GetStarted> {
                                                 ],
                                               );
                                             }),
-                                            const SizedBox(height:6),
+                                        const SizedBox(height: 6),
                                       ],
                                     );
                                   },
