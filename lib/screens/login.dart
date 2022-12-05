@@ -40,9 +40,7 @@ class _LoginPageState extends State<LoginPage> {
               image: DecorationImage(
                 image: AssetImage(
                   'assets/images/beyolix-app.png',
-                  
                 ),
-
               ),
             ),
 
